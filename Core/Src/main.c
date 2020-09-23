@@ -71,7 +71,6 @@ int main(void)
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
-
   /* USER CODE BEGIN Init */
 
   /* USER CODE END Init */
@@ -91,19 +90,19 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  Apaga_Display();
   while (1)
   {
-	  Envia_Codigo_Display(0xFF, 0xFF); // Apaga os 4 Displays
+	  //Apaga_Display(); // Apaga os 4 Displays
 	  switch(estado) {
 	   	case 0:
-	   		Apaga_LEDs();
-	   		Exibir_Unsigned_Int(3);
+	   		Exibir_Unsigned_Int(15);
 	  	break;
 	  	case 1:
-	  		Acende_LEDs();
+	  		Contagem_Progressiva(0, 16);
 	  	break;
 	  	case 2:
-	  		Alterna_LEDs();
+	  		Contagem_Regressiva(9999, 9985);
 	  	break;
 	  	default:
 	  	break;

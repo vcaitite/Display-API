@@ -46,6 +46,8 @@
 #ifndef MFS_DISPLAY4NUCLEO_64_STMF401_H_
 #define MFS_DISPLAY4NUCLEO_64_STMF401_H_
 #include <stdint.h>
+#include <stdbool.h>
+#include "stm32f4xx_hal.h"
 
 /*	MAPEAMENTO DE DÍGITOS:
  *  {D1,  D2,  D3,  D4};
@@ -56,11 +58,6 @@
 #define DIGIT_4 0xF8
 
 const uint8_t SEGMENT_MAP_DIGIT[10];
-
-
-void Alterna_LEDs(void);
-void Acende_LEDs(void);
-void Apaga_LEDs(void);
 
 
 /********************************************************************************
@@ -96,15 +93,18 @@ void Exibir_Unsigned_Int(uint16_t value);
  * 	Função que mostra no display de 7 segmentos uma contagem regressiva 		*
  * 	partindo do "start_number" e decrementando de 1 em 1 segundo até atingir o	*
  * 	"end_number". OBS: é necessário que o "start_number" seja maior que o		*
- * 	"end_number".																*
+ * 	"end_number". OBS 2: HAL_Init já deve ter sido chamada previamente.	 		*
  *																				*
  * 	@params:																	*
  * 	uint16_t start_number - valor de 1 a 9999 que deseja que se inicie a  		*
  * 					 		regressiva.											*
  *	uint16_t end_number - valor de 0 a 9998 que deseja que se encerre a  		*
  * 					 	  regressiva.											*
+ *  @return: (bool)																*
+ *	true - se a contagem ocorreu como planejado e chegou ao final.				*
+ *	false - valores inválidos recebidos como parâmetro.							*
  ********************************************************************************/
-void Contagem_Regressiva(uint16_t start_number, uint16_t end_number);
+bool Contagem_Regressiva(uint16_t start_number, uint16_t end_number);
 
 
 
@@ -113,15 +113,27 @@ void Contagem_Regressiva(uint16_t start_number, uint16_t end_number);
  * 	Função que mostra no display de 7 segmentos uma contagem progressiva 		*
  * 	partindo do "start_number" e incrementando de 1 em 1 segundo até atingir o	*
  * 	"end_number". OBS: é necessário que o "start_number" seja menor que o		*
- * 	"end_number".																*
+ * 	"end_number". OBS 2: HAL_Init já deve ter sido chamada previamente.			*
  *																				*
  * 	@params:																	*
  * 	uint16_t start_number - valor de 0 a 9998 que deseja que se inicie a  		*
  * 					 		progressiva.										*
  *	uint16_t end_number - valor de 1 a 9999 que deseja que se encerre a  		*
  * 					 	  progressiva.											*
+ * 					 	  														*
+ *  @return: (bool)																*
+ *	true - se a contagem ocorreu como planejado e chegou ao final.				*
+ *	false - valores inválidos recebidos como parâmetro.							*										*
  ********************************************************************************/
-void Contagem_Progressiva(uint16_t start_number, uint16_t end_number);
+bool Contagem_Progressiva(uint16_t start_number, uint16_t end_number);
+
+
+
+/********************************************************************************
+ * 								Function Description:							*		*
+ * 	Função apaga todo o display.												*
+ ********************************************************************************/
+void Apaga_Display();
 
 
 #endif /* MFS_DISPLAY4NUCLEO_64_STMF401_H_ */

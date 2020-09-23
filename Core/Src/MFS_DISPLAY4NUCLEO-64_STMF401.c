@@ -48,35 +48,37 @@ const uint8_t SEGMENT_MAP_DIGIT[10] = {0xC0,0xF9,0xA4,0xB0,0x99,0x92,0x82,0xF8,0
 // {136, 131, 167, 161, 134, 142, 144, 139, 207, 241, 182, 199, 182, 171, 163, 140, 152, 175, 146, 135, 227, 182, 182, 182, 145, 182};
 
 
-void Alterna_LEDs(void) {
-//	HAL_GPIO_TogglePin (GPIO_TypeDef * GPIOx, uint16_t GPIO_Pin)
-	HAL_GPIO_TogglePin (GPIOA, LED_D1_Pin);
-	HAL_Delay(100);
-	HAL_GPIO_TogglePin (GPIOA, LED_D2_Pin);
-	HAL_Delay(100);
-	HAL_GPIO_TogglePin (GPIOA, LED_D3_Pin);
-	HAL_Delay(100);
-	HAL_GPIO_TogglePin (LED_D4_GPIO_Port, LED_D4_Pin);
-	HAL_Delay(100);
+
+
+/********************************************************************************
+ * 								Function Description:							*		*
+ * 	Função apaga todo o display.												*
+ ********************************************************************************/
+void Apaga_Display(){
+	static uint8_t i = 0;
+	static uint8_t cod_display = 0xFF;
+	static uint16_t serie = 0;
+	serie = 0xFF;
+	serie <<= 8;
+	serie |= cod_display;
+	// Envia os 16 bits na seguinte ordem serie[15:0]
+	for(i=0; i<16; i++) {
+		// considera o bit mais a esquerda (mais significativo)
+		// coloca a linha SER em "1" se o bit em consideração for igual 1, "0" caso contrário
+		if(serie & 0x8000)
+			HAL_GPIO_WritePin (GPIOA, SER_Pin, 1);
+		else
+			HAL_GPIO_WritePin (GPIOA, SER_Pin, 0);
+		// Dê um pulso de clock em SRCLK para indicar ao Shift Register que o valor do bit deverá ser lido
+		HAL_GPIO_WritePin (GPIOA, SRCLK_Pin, 1);
+		HAL_GPIO_WritePin (GPIOA, SRCLK_Pin, 0);
+		// desloque a half word para a esquerda 1 posição de forma que o próximo bit seja o mais significativo
+		serie <<= 1;
+	}
+	// Dê um pulso de clock em RCLK_Pin para indicar ao Latch D que o valor do bit deverá ser lido
+	HAL_GPIO_WritePin (GPIOB, RCLK_Pin, 1);
+	HAL_GPIO_WritePin (GPIOB, RCLK_Pin, 0);
 }
-
-void Acende_LEDs(void) {
-//	void HAL_GPIO_WritePin (GPIO_TypeDef * GPIOx, uint16_t GPIO_Pin, GPIO_PinState PinState)
-	HAL_GPIO_WritePin (GPIOA, LED_D1_Pin, 0);
-	HAL_GPIO_WritePin (GPIOA, LED_D2_Pin, 0);
-	HAL_GPIO_WritePin (GPIOA, LED_D3_Pin, 0);
-	HAL_GPIO_WritePin (LED_D4_GPIO_Port, LED_D4_Pin, 0);
-}
-
-void Apaga_LEDs(void) {
-//	void HAL_GPIO_WritePin (GPIO_TypeDef * GPIOx, uint16_t GPIO_Pin, GPIO_PinState PinState)
-	HAL_GPIO_WritePin (GPIOA, LED_D1_Pin, 1);
-	HAL_GPIO_WritePin (GPIOA, LED_D2_Pin, 1);
-	HAL_GPIO_WritePin (GPIOA, LED_D3_Pin, 1);
-	HAL_GPIO_WritePin (LED_D4_GPIO_Port, LED_D4_Pin, 1);
-}
-
-
 
 /********************************************************************************
  * 								Function Description:							*		*
@@ -167,12 +169,62 @@ void Exibir_Unsigned_Int(uint16_t value){
  * 	Função que mostra no display de 7 segmentos uma contagem regressiva 		*
  * 	partindo do "start_number" e decrementando de 1 em 1 segundo até atingir o	*
  * 	"end_number". OBS: é necessário que o "start_number" seja maior que o		*
- * 	"end_number".																*
+ * 	"end_number". OBS 2: HAL_Init já deve ter sido chamada previamente.			*
  *																				*
  * 	@params:																	*
  * 	uint16_t start_number - valor de 1 a 9999 que deseja que se inicie a  		*
  * 					 		regressiva.											*
  *	uint16_t end_number - valor de 0 a 9998 que deseja que se encerre a  		*
  * 					 	  regressiva.											*
+ *																				*
+ *	@return: (bool)																*
+ *	true - se a contagem ocorreu como planejado e chegou ao final.				*
+ *	false - valores inválidos recebidos como parâmetro.							*
  ********************************************************************************/
+bool Contagem_Regressiva(uint16_t start_number, uint16_t end_number){
+	if(start_number > 9999 || start_number < 1 || end_number > 9998 ||
+			end_number < 0 || start_number < end_number){
+		return false;
+	}
+	int millis;
+	for(uint16_t value = start_number; value >= end_number; value--){
+		millis = HAL_GetTick();
+		while(HAL_GetTick() - millis < 1000){
+			Exibir_Unsigned_Int(value);
+		}
+	}
+	return true;
+}
 
+
+/********************************************************************************
+ * 								Function Description:							*		*
+ * 	Função que mostra no display de 7 segmentos uma contagem progressiva 		*
+ * 	partindo do "start_number" e incrementando de 1 em 1 segundo até atingir o	*
+ * 	"end_number". OBS: é necessário que o "start_number" seja menor que o		*
+ * 	"end_number". OBS 2: HAL_Init já deve ter sido chamada previamente.			*
+ *																				*
+ * 	@params:																	*
+ * 	uint16_t start_number - valor de 0 a 9998 que deseja que se inicie a  		*
+ * 					 		progressiva.										*
+ *	uint16_t end_number - valor de 1 a 9999 que deseja que se encerre a  		*
+ * 					 	  progressiva.											*
+ * 					 	  														*
+ *  @return: (bool)																*
+ *	true - se a contagem ocorreu como planejado e chegou ao final.				*
+ *	false - valores inválidos recebidos como parâmetro.							*										*
+ ********************************************************************************/
+bool Contagem_Progressiva(uint16_t start_number, uint16_t end_number){
+	if(start_number > 9998 || start_number < 0 || end_number > 9999 ||
+			end_number < 1 || start_number > end_number){
+		return false;
+	}
+	int millis;
+	for(uint16_t value = start_number; value <= end_number; value++){
+		millis = HAL_GetTick();
+		while(HAL_GetTick() - millis < 1000){
+			Exibir_Unsigned_Int(value);
+		}
+	}
+	return true;
+}
