@@ -56,7 +56,7 @@ static void MX_GPIO_Init(void);
 /* USER CODE BEGIN 0 */
 
 /* USER CODE END 0 */
-
+static uint16_t estado=4;
 /**
   * @brief  The application entry point.
   * @retval int
@@ -93,8 +93,24 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  Envia_Codigo_Display(0xFF, 0xFF); // Apaga os 4 Displays
+	  switch(estado) {
+	   	case 0:
+	   		Apaga_LEDs();
+	  		Envia_Codigo_Display(0xA3, 1); // o
+	  		Envia_Codigo_Display(0x8E, 2); // F
+	  		Envia_Codigo_Display(142, 3);  // F
+	  	break;
+	  	case 1:
+	  		Acende_LEDs();
+	  	break;
+	  	case 2:
+	  		Alterna_LEDs();
+	  	break;
+	  	default:
+	  	break;
     /* USER CODE END WHILE */
-
+	  }
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -212,7 +228,14 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
+	if(GPIO_Pin == SW1_Pin)
+		estado=0;
+	if(GPIO_Pin == SW2_Pin)
+		estado=1;
+	if(GPIO_Pin == SW3_Pin)
+		estado=2;
+}
 /* USER CODE END 4 */
 
 /**
