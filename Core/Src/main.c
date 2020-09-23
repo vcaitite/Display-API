@@ -97,9 +97,7 @@ int main(void)
 	  switch(estado) {
 	   	case 0:
 	   		Apaga_LEDs();
-	  		Envia_Codigo_Display(0xA3, 1); // o
-	  		Envia_Codigo_Display(0x8E, 2); // F
-	  		Envia_Codigo_Display(142, 3);  // F
+	   		Exibir_Unsigned_Int(3);
 	  	break;
 	  	case 1:
 	  		Acende_LEDs();

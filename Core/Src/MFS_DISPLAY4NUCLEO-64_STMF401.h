@@ -35,6 +35,14 @@
  */
 
 
+
+// IDEIAS:
+// Display specific variables for future new display functions implementations
+// void Envia_String_Display(uint8_t carac[4], uint8_t num_display)
+// void Envia_Signed_Display(int8_t, uint8_t num_display)
+// void Envia_Float_Display(float, uint8_t num_display)
+
+
 #ifndef MFS_DISPLAY4NUCLEO_64_STMF401_H_
 #define MFS_DISPLAY4NUCLEO_64_STMF401_H_
 #include <stdint.h>
@@ -42,10 +50,13 @@
 /*	MAPEAMENTO DE DÍGITOS:
  *  {D1,  D2,  D3,  D4};
  *  {0xF1,0xF2,0xF4,0xF8}; */
-#define DIGITO_1 0xF1
-#define DIGITO_2 0xF2
-#define DIGITO_3 0xF4
-#define DIGITO_4 0xF8
+#define DIGIT_1 0xF1
+#define DIGIT_2 0xF2
+#define DIGIT_3 0xF4
+#define DIGIT_4 0xF8
+
+const uint8_t SEGMENT_MAP_DIGIT[10];
+
 
 void Alterna_LEDs(void);
 void Acende_LEDs(void);
@@ -67,6 +78,50 @@ void Apaga_LEDs(void);
 void Envia_Codigo_Display(uint8_t carac, uint8_t num_display);
 
 
+
+/********************************************************************************
+ * 								Function Description:							*		*
+ * 	Função que exibe um valor inteiro de 0 a 9990 no display de 7 segmentos.	*				*
+ *																				*
+ * 	@params:																	*
+ * 	uint16_t value - valor de 0 a 9999 que deseja-se mostrar no display de 		*
+ * 					 de 7 segmentos												*
+ ********************************************************************************/
+void Exibir_Unsigned_Int(uint16_t value);
+
+
+
+/********************************************************************************
+ * 								Function Description:							*		*
+ * 	Função que mostra no display de 7 segmentos uma contagem regressiva 		*
+ * 	partindo do "start_number" e decrementando de 1 em 1 segundo até atingir o	*
+ * 	"end_number". OBS: é necessário que o "start_number" seja maior que o		*
+ * 	"end_number".																*
+ *																				*
+ * 	@params:																	*
+ * 	uint16_t start_number - valor de 1 a 9999 que deseja que se inicie a  		*
+ * 					 		regressiva.											*
+ *	uint16_t end_number - valor de 0 a 9998 que deseja que se encerre a  		*
+ * 					 	  regressiva.											*
+ ********************************************************************************/
+void Contagem_Regressiva(uint16_t start_number, uint16_t end_number);
+
+
+
+/********************************************************************************
+ * 								Function Description:							*		*
+ * 	Função que mostra no display de 7 segmentos uma contagem progressiva 		*
+ * 	partindo do "start_number" e incrementando de 1 em 1 segundo até atingir o	*
+ * 	"end_number". OBS: é necessário que o "start_number" seja menor que o		*
+ * 	"end_number".																*
+ *																				*
+ * 	@params:																	*
+ * 	uint16_t start_number - valor de 0 a 9998 que deseja que se inicie a  		*
+ * 					 		progressiva.										*
+ *	uint16_t end_number - valor de 1 a 9999 que deseja que se encerre a  		*
+ * 					 	  progressiva.											*
+ ********************************************************************************/
+void Contagem_Progressiva(uint16_t start_number, uint16_t end_number);
 
 
 #endif /* MFS_DISPLAY4NUCLEO_64_STMF401_H_ */

@@ -37,25 +37,16 @@
 #include "MFS_DISPLAY4NUCLEO-64_STMF401.h"
 #include "main.h"
 
-// Display specific variables for future new diaplay functions implementations
-// void Envia_Caractere_Display(uint8_t carac, uint8_t num_display)
-// void Envia_String_Display(uint8_t carac[4], uint8_t num_display)
-// void Envia_Unsigned_Display(uint8_t, uint8_t num_display)
-// void Envia_Signed_Display(int8_t, uint8_t num_display)
-// void Envia_Float_Display(float, uint8_t num_display)
 // Segment byte maps for numbers 0 to 9
 // {   0,   1,   2,   3,   4,   5,   6,   7,   8,   9};
 // {0xC0,0xF9,0xA4,0xB0,0x99,0x92,0x82,0xF8,0X80,0X90};
-// const uint8_t SEGMENT_MAP_DIGIT[10] = {0xC0,0xF9,0xA4,0xB0,0x99,0x92,0x82,0xF8,0X80,0X90}
+const uint8_t SEGMENT_MAP_DIGIT[10] = {0xC0,0xF9,0xA4,0xB0,0x99,0x92,0x82,0xF8,0X80,0X90};
+
 
 // Segment byte maps for alpha a-z */
 // {  A,   b,   c,   d,   E,   F,   G,   H,   I,   j,   k,   l,  m, ...};
 // {136, 131, 167, 161, 134, 142, 144, 139, 207, 241, 182, 199, 182, 171, 163, 140, 152, 175, 146, 135, 227, 182, 182, 182, 145, 182};
 
-// Byte maps to select digit 1 to 4
-// {  D1,  D2,  D3,  D4};
-// {0xF1,0xF2,0xF4,0xF8};
-// const
 
 void Alterna_LEDs(void) {
 //	HAL_GPIO_TogglePin (GPIO_TypeDef * GPIOx, uint16_t GPIO_Pin)
@@ -85,6 +76,20 @@ void Apaga_LEDs(void) {
 	HAL_GPIO_WritePin (LED_D4_GPIO_Port, LED_D4_Pin, 1);
 }
 
+
+
+/********************************************************************************
+ * 								Function Description:							*		*
+ * 	Função que recebe um caractere e a posição correspondente ao dígito do 		*
+ * 	display de 7 segmentos e então mostra esse caractere no dígito escolhido.	*
+ *																				*
+ * 	@params:																	*
+ * 	uint8_t carac - código do caractere que se deseja imprimir.					*
+ * 	uint8_t num_display - valor correspondente ao dígito que se deseja imprimir	*
+ *  					  o caractere (são válidos valores de 1 a 4, sendo o 	*
+ *  					  valor 1 correspondente ao dígito mais a esquerda e o	*
+ *  					  valor 4 associado ao dígito mais a direita)			*
+ ********************************************************************************/
 void Envia_Codigo_Display(uint8_t carac, uint8_t num_display) {
 	static uint8_t i = 0;
 	static uint8_t cod_display = 0;
@@ -93,16 +98,16 @@ void Envia_Codigo_Display(uint8_t carac, uint8_t num_display) {
 	serie <<= 8;
 	switch(num_display){
 		case 1:
-			cod_display = DIGITO_1;
+			cod_display = DIGIT_1;
 			break;
 		case 2:
-			cod_display = DIGITO_2;
+			cod_display = DIGIT_2;
 			break;
 		case 3:
-			cod_display = DIGITO_3;
+			cod_display = DIGIT_3;
 			break;
 		case 4:
-			cod_display = DIGITO_4;
+			cod_display = DIGIT_4;
 			break;
 		default:
 			return;
@@ -127,4 +132,47 @@ void Envia_Codigo_Display(uint8_t carac, uint8_t num_display) {
 	HAL_GPIO_WritePin (GPIOB, RCLK_Pin, 1);
 	HAL_GPIO_WritePin (GPIOB, RCLK_Pin, 0);
 }
+
+
+/********************************************************************************
+ * 								Function Description:							*		*
+ * 	Função que exibe um valor inteiro de 0 a 9990 no display de 7 segmentos.	*				*
+ *																				*
+ * 	@params:																	*
+ * 	uint16_t value - valor de 0 a 9999 que deseja-se mostrar no display de 		*
+ * 					 de 7 segmentos												*
+ ********************************************************************************/
+void Exibir_Unsigned_Int(uint16_t value){
+	//	Testando se o valor é válido:
+	if(value > 9999 || value < 0){
+		return;
+	}
+	uint8_t digit_1 = value/1000;
+	value -= digit_1 * 1000;
+	uint8_t digit_2 = value/100;
+	value -= digit_2 * 100;
+	uint8_t digit_3 = value/10;
+	value -= digit_3 * 10;
+	uint8_t digit_4 = value;
+	Envia_Codigo_Display(SEGMENT_MAP_DIGIT[digit_1], 1);
+	Envia_Codigo_Display(SEGMENT_MAP_DIGIT[digit_2], 2);
+	Envia_Codigo_Display(SEGMENT_MAP_DIGIT[digit_3], 3);
+	Envia_Codigo_Display(SEGMENT_MAP_DIGIT[digit_4], 4);
+}
+
+
+
+/********************************************************************************
+ * 								Function Description:							*		*
+ * 	Função que mostra no display de 7 segmentos uma contagem regressiva 		*
+ * 	partindo do "start_number" e decrementando de 1 em 1 segundo até atingir o	*
+ * 	"end_number". OBS: é necessário que o "start_number" seja maior que o		*
+ * 	"end_number".																*
+ *																				*
+ * 	@params:																	*
+ * 	uint16_t start_number - valor de 1 a 9999 que deseja que se inicie a  		*
+ * 					 		regressiva.											*
+ *	uint16_t end_number - valor de 0 a 9998 que deseja que se encerre a  		*
+ * 					 	  regressiva.											*
+ ********************************************************************************/
 
