@@ -59,6 +59,29 @@
 
 const uint8_t SEGMENT_MAP_DIGIT[10];
 
+typedef enum {
+	LETRA_A = 136,
+	LETRA_B = 131,
+	LETRA_C = 167,
+	LETRA_D = 161,
+	LETRA_E = 134,
+	LETRA_F = 142,
+	LETRA_G = 144,
+	LETRA_H = 139,
+	LETRA_I = 207,
+	LETRA_J = 241,
+	LETRA_L = 199,
+	LETRA_N = 171,
+	LETRA_O = 163,
+	LETRA_P = 140,
+	LETRA_Q = 157,
+	LETRA_R = 175,
+	LETRA_S = 146,
+	LETRA_T = 135,
+	LETRA_U = 227,
+	LETRA_Y = 145,
+} LETRA;
+
 
 /********************************************************************************
  * 								Function Description:							*		*
@@ -74,11 +97,9 @@ const uint8_t SEGMENT_MAP_DIGIT[10];
  ********************************************************************************/
 void Envia_Codigo_Display(uint8_t carac, uint8_t num_display);
 
-
-
 /********************************************************************************
- * 								Function Description:							*		*
- * 	Função que exibe um valor inteiro de 0 a 9990 no display de 7 segmentos.	*				*
+ * 								Function Description:							*
+ * 	Função que exibe um valor inteiro de 0 a 9999 no display de 7 segmentos.	*
  *																				*
  * 	@params:																	*
  * 	uint16_t value - valor de 0 a 9999 que deseja-se mostrar no display de 		*
@@ -86,10 +107,23 @@ void Envia_Codigo_Display(uint8_t carac, uint8_t num_display);
  ********************************************************************************/
 void Exibir_Unsigned_Int(uint16_t value);
 
+/********************************************************************************
+ * 								Function Description:							*
+ * 	Função que exibe uma letra em um dado digito do display de 7 segmentos.	    *
+ *																				*
+ * 	@params:																	*
+ * 	ALPHA letra - valor descrito pelo enum ALPHA representando a letra que irá  *
+ * 	aparecer no display          												*
+ * 	uint8_t num_display - dígito do display no qual aparecerá a letra desejada  *
+ * 																				*
+ * 	OBS: Quando não é possível representar as letras k, m, v, w, x e z no 		*
+ * 	display, portanto elas não existem.											*
+ ********************************************************************************/
+void Exibir_Letra(LETRA letra, uint8_t num_display);
 
 
 /********************************************************************************
- * 								Function Description:							*		*
+ * 								Function Description:							*
  * 	Função que mostra no display de 7 segmentos uma contagem regressiva 		*
  * 	partindo do "start_number" e decrementando de 1 em 1 segundo até atingir o	*
  * 	"end_number". OBS: é necessário que o "start_number" seja maior que o		*

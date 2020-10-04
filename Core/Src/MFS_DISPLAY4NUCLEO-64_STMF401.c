@@ -135,7 +135,6 @@ void Envia_Codigo_Display(uint8_t carac, uint8_t num_display) {
 	HAL_GPIO_WritePin (GPIOB, RCLK_Pin, 0);
 }
 
-
 /********************************************************************************
  * 								Function Description:							*		*
  * 	Função que exibe um valor inteiro de 0 a 9990 no display de 7 segmentos.	*				*
@@ -162,6 +161,19 @@ void Exibir_Unsigned_Int(uint16_t value){
 	Envia_Codigo_Display(SEGMENT_MAP_DIGIT[digit_4], 4);
 }
 
+
+/********************************************************************************
+ * 								Function Description:							*
+ * 	Função que exibe uma letra em um dado digito do display de 7 segmentos.	    *
+ *																				*
+ * 	@params:																	*
+ * 	ALPHA letra - valor descrito pelo enum ALPHA representando a letra que irá  *
+ * 	aparecer no display          												*
+ * 	uint8_t num_display - dígito do display no qual aparecerá a letra desejada  *
+ ********************************************************************************/
+void Exibir_Letra(LETRA letra, uint8_t num_display){
+	Envia_Codigo_Display(letra, num_display);
+}
 
 
 /********************************************************************************
