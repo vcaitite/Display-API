@@ -46,7 +46,7 @@ const uint8_t SEGMENT_MAP_DIGIT[10] = {0xC0,0xF9,0xA4,0xB0,0x99,0x92,0x82,0xF8,0
 // Segment byte maps for alpha a-z */
 // {  A,   b,   c,   d,   E,   F,   G,   H,   I,   j,   k,   l,  m, ...};
 // {136, 131, 167, 161, 134, 142, 144, 139, 207, 241, 182, 199, 182, 171, 163, 140, 152, 175, 146, 135, 227, 182, 182, 182, 145, 182};
-
+const uint8_t SEGMENT_MAP_CHAR[26] = {136, 131, 167, 161, 134, 142, 144, 139, 207, 241, 182, 199, 182, 171, 163, 140, 152, 175, 146, 135, 227, 182, 182, 182, 145, 182};
 
 
 
@@ -161,22 +161,58 @@ void Exibir_Unsigned_Int(uint16_t value){
 	Envia_Codigo_Display(SEGMENT_MAP_DIGIT[digit_4], 4);
 }
 
+/********************************************************************************
+ * 								Function Description:							*
+ * 	Função que exibe um caractere no digito escolhido do display de 7 segmentos.*
+ *																				*
+ * 	@params:																	*
+ * 	const char caractere - caractere a ser exibido no dispay                    *
+ * 	uint8_t num_display - valor correspondente ao dígito que se deseja imprimir	*
+ *  					  o caractere (são válidos valores de 1 a 4, sendo o 	*
+ *  					  valor 1 correspondente ao dígito mais a esquerda e o	*
+ *  					  valor 4 associado ao dígito mais a direita)			*
+ * 																				*
+ * 	OBS1: Não é possível representar as letras k, m, v, w, x e z no display,    *
+ * 	portanto elas são colocadas com 3 traços.  									*
+ ********************************************************************************/
+void Exibir_Char(char carac, uint8_t num_display){
+	carac = tolower(carac);
+	char a = 'a';
+
+	int aux = (int)(carac) - (int)a;
+
+	Envia_Codigo_Display(SEGMENT_MAP_CHAR[aux], num_display);
+}
 
 /********************************************************************************
  * 								Function Description:							*
- * 	Função que exibe uma letra em um dado digito do display de 7 segmentos.	    *
+ * 	Função que exibe uma string no do display de 7 segmentos.	                *
  *																				*
  * 	@params:																	*
- * 	ALPHA letra - valor descrito pelo enum ALPHA representando a letra que irá  *
- * 	aparecer no display          												*
- * 	uint8_t num_display -valor correspondente ao dígito que se deseja imprimir	*
- *  					  o caractere (são válidos valores de 1 a 4, sendo o 	*
- *  					  valor 1 correspondente ao dígito mais a esquerda e o	*
- *  					  valor 4 associado ao dígito mais a direita)           *
+ * 	const char *string  - string a ser exibida no disply                        *
+ * 																				*
+ * 	OBS1: Não é possível representar as letras k, m, v, w, x e z no display,    *
+ * 	portanto elas são colocadas com 3 traços.       							*
+ * 																				*
+ * 	OBS2: Ao tentar colocar uma palavra de mais de 4 digitos, o display exibirá *
+ * 	apenas os 4 primeiros 														*
  ********************************************************************************/
-void Exibir_Letra(LETRA letra, uint8_t num_display){
-	Envia_Codigo_Display(letra, num_display);
+void Exibir_String(const char *string){
+	Apaga_Display();
+
+	if(strlen(string) > 0){
+		Exibir_Char(string[0], 1);
+		if(strlen(string) > 1){
+			Exibir_Char(string[1], 2);
+			if(strlen(string) > 2){
+				Exibir_Char(string[2], 3);
+				if(strlen(string) > 3)
+					Exibir_Char(string[3], 4);
+			}
+		}
+	}
 }
+
 
 
 /********************************************************************************
@@ -253,41 +289,43 @@ bool Contagem_Progressiva(uint16_t start_number, uint16_t end_number){
  * 	PALAVRA_COMUM).                                                             *
  ********************************************************************************/
 void Exibir_Palavra_Comum(PALAVRA_COMUM palavra){
+	Apaga_Display();
+
 	switch(palavra){
 	case ON:
-		Exibir_Letra(LETRA_O, 3);
-		Exibir_Letra(LETRA_N, 4);
+		Exibir_Char('O', 3);
+		Exibir_Char('N', 4);
 		break;
 
 	case OFF:
-		Exibir_Letra(LETRA_O, 2);
-		Exibir_Letra(LETRA_F, 3);
-		Exibir_Letra(LETRA_F, 4);
+		Exibir_Char('O', 2);
+		Exibir_Char('F', 3);
+		Exibir_Char('F', 4);
 		break;
 
 	case YES:
-		Exibir_Letra(LETRA_Y, 2);
-		Exibir_Letra(LETRA_E, 3);
-		Exibir_Letra(LETRA_S, 4);
+		Exibir_Char('Y', 2);
+		Exibir_Char('E', 3);
+		Exibir_Char('S', 4);
 		break;
 
 	case NO:
-		Exibir_Letra(LETRA_N, 3);
-		Exibir_Letra(LETRA_O, 4);
+		Exibir_Char("N", 3);
+		Exibir_Char("O", 4);
 		break;
 
 	case OPEN:
-		Exibir_Letra(LETRA_O, 1);
-		Exibir_Letra(LETRA_P, 2);
-		Exibir_Letra(LETRA_E, 3);
-		Exibir_Letra(LETRA_N, 4);
+		Exibir_Char('O', 1);
+		Exibir_Char('P', 2);
+		Exibir_Char('E', 3);
+		Exibir_Char('N', 4);
 		break;
 
 	case LOOP:
-		Exibir_Letra(LETRA_L, 1);
-		Exibir_Letra(LETRA_O, 2);
-		Exibir_Letra(LETRA_O, 3);
-		Exibir_Letra(LETRA_P, 4);
+		Exibir_Char('L', 1);
+		Exibir_Char('O', 2);
+		Exibir_Char('O', 3);
+		Exibir_Char('P', 4);
 		break;
 
 	default:
@@ -361,34 +399,33 @@ void Piscar_Palavra_Comum(PALAVRA_COMUM palavra, uint8_t tempo){
 
 /********************************************************************************
  * 								Function Description:							*
- * Função que recebe quatro letras e faz com que elas apareçam no display 		*
- * piscando por um tempo determinado						                    *
+ * Função que recebe uma string e pisca ela	por um tempo determinado.n          *
  * 	                                                                            *
- * 	@params:																	*
- * 	LETRA letra1 - Letra a ser exibida no display 1       						*
- * 	LETRA letra2 - Letra a ser exibida no display 2  	                        *
- * 	LETRA letra3 - Letra a ser exibida no display 3  							*
- * 	LETRA letra4 - Letra a ser exibida no display 4  							*
- *  uint8_t tempo - tempo no qual o display ficará piscando.                    *
+ *  @params:																	*
+ * 	const char *string  - string a ser exibida no display                       *
+ * 	uint8_t tempo - tempo no qual o display ficará piscando. 					*
+ * 																				*
+ * 	OBS1: Não é possível representar as letras k, m, v, w, x e z no display,    *
+ * 	portanto elas são colocadas com 3 traços.       							*
+ * 																				*
+ * 	OBS2: Ao tentar colocar uma palavra de mais de 4 digitos, o display exibirá *
+ * 	apenas os 4 primeiros   								                    *
  ********************************************************************************/
-void Piscar_Conjunto_Letras(LETRA letra1, LETRA letra2, LETRA letra3, LETRA letra4, uint8_t tempo){
+void Piscar_String(const char *string, uint8_t tempo){
 	int millis;
 
-	for(uint8_t i = 0; i < tempo/2; i++){
-		millis = HAL_GetTick();
+		for(uint8_t i = 0; i < tempo/2; i++){
+			millis = HAL_GetTick();
 
-		while(HAL_GetTick() - millis < 500){
-			Exibir_Letra(letra1, 1);
-			Exibir_Letra(letra2, 2);
-			Exibir_Letra(letra3, 3);
-			Exibir_Letra(letra4, 4);
-		}
+			while(HAL_GetTick() - millis < 500){
+				Exibir_String(string);
+			}
 
-		while(HAL_GetTick() - millis < 1000){
-			Envia_Codigo_Display(0xFF, 1);
-			Envia_Codigo_Display(0xFF, 2);
-			Envia_Codigo_Display(0xFF, 3);
-			Envia_Codigo_Display(0xFF, 4);
+			while(HAL_GetTick() - millis < 1000){
+				Envia_Codigo_Display(0xFF, 1);
+				Envia_Codigo_Display(0xFF, 2);
+				Envia_Codigo_Display(0xFF, 3);
+				Envia_Codigo_Display(0xFF, 4);
+			}
 		}
-	}
 }

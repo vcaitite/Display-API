@@ -59,29 +59,7 @@
 
 const uint8_t SEGMENT_MAP_DIGIT[10];
 
-typedef enum {
-	NENHUMA_LETRA = 0xFF,
-	LETRA_A = 136,
-	LETRA_B = 131,
-	LETRA_C = 167,
-	LETRA_D = 161,
-	LETRA_E = 134,
-	LETRA_F = 142,
-	LETRA_G = 144,
-	LETRA_H = 139,
-	LETRA_I = 207,
-	LETRA_J = 241,
-	LETRA_L = 199,
-	LETRA_N = 171,
-	LETRA_O = 163,
-	LETRA_P = 140,
-	LETRA_Q = 157,
-	LETRA_R = 175,
-	LETRA_S = 146,
-	LETRA_T = 135,
-	LETRA_U = 227,
-	LETRA_Y = 145,
-} LETRA;
+const uint8_t SEGMENT_MAP_CHAR[26];
 
 typedef enum {
 	ON,
@@ -118,20 +96,34 @@ void Exibir_Unsigned_Int(uint16_t value);
 
 /********************************************************************************
  * 								Function Description:							*
- * 	Função que exibe uma letra em um dado digito do display de 7 segmentos.	    *
+ * 	Função que exibe um caractere no digito escolhido do display de 7 segmentos.*
  *																				*
  * 	@params:																	*
- * 	ALPHA letra - valor descrito pelo enum ALPHA representando a letra que irá  *
- * 	aparecer no display          												*
- * 	uint8_t num_display -valor correspondente ao dígito que se deseja imprimir	*
+ * 	const char caractere - caractere a ser exibido no dispay                    *
+ * 	uint8_t num_display - valor correspondente ao dígito que se deseja imprimir	*
  *  					  o caractere (são válidos valores de 1 a 4, sendo o 	*
  *  					  valor 1 correspondente ao dígito mais a esquerda e o	*
- *  					  valor 4 associado ao dígito mais a direita)           *
+ *  					  valor 4 associado ao dígito mais a direita)			*
  * 																				*
- * 	OBS: Quando não é possível representar as letras k, m, v, w, x e z no 		*
- * 	display, portanto elas não existem.											*
+ * 	OBS1: Não é possível representar as letras k, m, v, w, x e z no display,    *
+ * 	portanto elas são colocadas com 3 traços.  									*
  ********************************************************************************/
-void Exibir_Letra(LETRA letra, uint8_t num_display);
+void Exibir_Char(char carac, uint8_t num_display);
+
+/********************************************************************************
+ * 								Function Description:							*
+ * 	Função que exibe uma string no do display de 7 segmentos.	                *
+ *																				*
+ * 	@params:																	*
+ * 	const char *string  - string a ser exibida no display                       *
+ * 																				*
+ * 	OBS1: Não é possível representar as letras k, m, v, w, x e z no display,    *
+ * 	portanto elas são colocadas com 3 traços.       							*
+ * 																				*
+ * 	OBS2: Ao tentar colocar uma palavra de mais de 4 digitos, o display exibirá *
+ * 	apenas os 4 primeiros 														*
+ ********************************************************************************/
+void Exibir_String(const char *string);
 
 
 /********************************************************************************
@@ -216,17 +208,19 @@ void Piscar_Palavra_Comum(PALAVRA_COMUM palavra, uint8_t tempo);
 
 /********************************************************************************
  * 								Function Description:							*
- * Função que recebe quatro letras e faz com que elas apareçam no display 		*
- * piscando por um tempo determinado						                    *
+ * Função que recebe uma string e pisca ela	por um tempo determinado.n          *
  * 	                                                                            *
- * 	@params:																	*
- * 	LETRA letra1 - Letra a ser exibida no display 1       						*
- * 	LETRA letra2 - Letra a ser exibida no display 2  	                        *
- * 	LETRA letra3 - Letra a ser exibida no display 3  							*
- * 	LETRA letra4 - Letra a ser exibida no display 4  							*
- *  uint8_t tempo - tempo no qual o display ficará piscando.                    *
+ *  @params:																	*
+ * 	const char *string  - string a ser exibida no display                       *
+ * 	uint8_t tempo - tempo no qual o display ficará piscando. 					*
+ * 																				*
+ * 	OBS1: Não é possível representar as letras k, m, v, w, x e z no display,    *
+ * 	portanto elas são colocadas com 3 traços.       							*
+ * 																				*
+ * 	OBS2: Ao tentar colocar uma palavra de mais de 4 digitos, o display exibirá *
+ * 	apenas os 4 primeiros   								                    *
  ********************************************************************************/
-void Piscar_Conjunto_Letras(LETRA letra1, LETRA letra2, LETRA letra3, LETRA letra4, uint8_t tempo);
+void Piscar_String(const char *string, uint8_t tempo);
 
 
 #endif /* MFS_DISPLAY4NUCLEO_64_STMF401_H_ */

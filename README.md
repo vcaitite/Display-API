@@ -25,15 +25,28 @@ Abaixo um resumo das funções desenvolvidas:
     Parâmetros:
     uint16_t value - valor de 0 a 9999 que deseja-se mostrar no display de 7 segmentos	
 
-3 - void Exibe_Letras(LETRA letra, uint8_t num_display)
+3 - void Exibir_Char(char carac, uint8_t num_display)
+    
+    Essa função exibe um caractere no digito escolhido do display de 7 segmentos.
 
-    Essa função exibe uma letra em um digito do display de 7 segmentos escolhido.
+    Parâmetros:
+  	const char caractere - caractere a ser exibido no dispay 
+  	uint8_t num_display - valor correspondente ao dígito que se deseja imprimir o caractere (são válidos valores de 1 a 4, sendo o valor 1 correspondente ao dígito mais a esquerda e o valor 4 associado ao dígito mais a direita).	
+  																				
+  	OBS1: Não é possível representar as letras k, m, v, w, x e z no display, portanto elas são colocadas com 3 traços. 
 
-    Parametros:
-    LETRA letra - Escolha da letra que irá aparecer a partir do enum LETRAS. Observe que é impossível representar as letra k, m, v, w, x e z no display de 7 segmentos e, portanto, elas não existem.
-    uint8_t num_display - O número do display no qual aparecerá a letra, variando de 1 a 4.
+4 - void Exibir_String(const char *string)
+
+    Essa função exibe uma string no do display de 7 segmentos.	
+ 
+    Parâmetros:
+  	const char *string  - string a ser exibida no display.
+  																				
+  	OBS1: Não é possível representar as letras k, m, v, w, x e z no display, portanto elas são colocadas com 3 traços. 
+  																				
+  	OBS2: Ao tentar colocar uma palavra de mais de 4 digitos, o display exibirá apenas os 4 primeiros.
 	
-4 - bool Contagem_Regressiva(uint16_t start_number, uint16_t end_number)
+5 - bool Contagem_Regressiva(uint16_t start_number, uint16_t end_number)
 
     Essa função realiza uma contagem pregressiva do número start_number ao número end_number. Sendo que start_number deve ser sempre maior que end_number.
 
@@ -48,7 +61,7 @@ Abaixo um resumo das funções desenvolvidas:
  	false - valores inválidos recebidos como parâmetro.
 		
 
-5 - bool Contagem_Progressiva(uint16_t start_number, uint16_t end_number)
+6 - bool Contagem_Progressiva(uint16_t start_number, uint16_t end_number)
 
     Essa função realiza uma contagem progressiva do número start_number ao número end_number. Sendo que start_number deve ser sempre menor que end_number.
 
@@ -63,19 +76,19 @@ Abaixo um resumo das funções desenvolvidas:
  	false - valores inválidos recebidos como parâmetro.
 		
 
-6 - void Apaga_Display()
+7 - void Apaga_Display()
     
     Essa função apaga todo o display de 7 segmentos.
 
 
-7 - void Exibir_Palavra_Comum(PALAVRA_COMUM palavra)
+8 - void Exibir_Palavra_Comum(PALAVRA_COMUM palavra)
     
 Essa função recebe uma palavra comum e exibe ela. As palavras que ela podem receber estão enumeradas no enum PALAVRA_COMUM
 
     Parãmetros:
  	PALAVRA_COMUM palavra - Palavra a ser exibida (listada no enum PALAVRA_COMUM).
 
-8 - void Piscar_Int(uint16_t value, uint8_t tempo)
+9 - void Piscar_Int(uint16_t value, uint8_t tempo)
 
     Essa função recebe um inteiro de 0 a 9999 e faz com que esse inteiro pisque por um tempo determinado (em segundos).
 
@@ -83,7 +96,7 @@ Essa função recebe uma palavra comum e exibe ela. As palavras que ela podem re
  	uint16_t inteiro - inteiro de 0 a 9999 que piscará.
     uint8_t tempo - tempo no qual o display ficará piscando.
 
-9 - void Piscar_Palavra_Comum(PALAVRA_COMUM palavra, uint8_t tempo)
+10 - void Piscar_Palavra_Comum(PALAVRA_COMUM palavra, uint8_t tempo)
 
     Essa função recebe uma palavra comum e faz com que essa palavra pisque por um tempo determinado (em segundos).
 
@@ -91,15 +104,17 @@ Essa função recebe uma palavra comum e exibe ela. As palavras que ela podem re
  	PALAVRA_COMUM palavra - Palavra a ser exibida (listada no enum PALAVRA_COMUM).
     uint8_t tempo - tempo no qual o display ficará piscando. 
 
-10 - void Piscar_Conjunto_Letras(LETRA letra1, LETRA letra2, LETRA letra3, LETRA letra4, uint8_t tempo)
+11 - void Piscar_String(const char *string, uint8_t tempo)
     
-    Essa função recebe quatro letras e faz com que elas apareçam no display piscando por um tempo determinado.
+     Essa função que recebe uma string e pisca ela	por um tempo determinado.
 
     Parâmetros:
- 	LETRA letra1 - Letra a ser exibida no display 1.
- 	LETRA letra2 - Letra a ser exibida no display 2.
- 	LETRA letra3 - Letra a ser exibida no display 3.
- 	LETRA letra4 - Letra a ser exibida no display 4.
-    uint8_t tempo - tempo no qual o display ficará piscando.
+  	const char *string  - string a ser exibida no display.
+  	uint8_t tempo - tempo no qual o display ficará piscando. 
+  																			
+  	OBS1: Não é possível representar as letras k, m, v, w, x e z no display, portanto elas são colocadas com 3 traços.
+  																				
+  	OBS2: Ao tentar colocar uma palavra de mais de 4 digitos, o display exibirá 
+  	apenas os 4 primeiros 
 
    
