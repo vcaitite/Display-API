@@ -60,6 +60,7 @@
 const uint8_t SEGMENT_MAP_DIGIT[10];
 
 typedef enum {
+	NENHUMA_LETRA = 0xFF,
 	LETRA_A = 136,
 	LETRA_B = 131,
 	LETRA_C = 167,
@@ -82,9 +83,17 @@ typedef enum {
 	LETRA_Y = 145,
 } LETRA;
 
+typedef enum {
+	ON,
+	OFF,
+	YES,
+	NO,
+	OPEN,
+	LOOP
+} PALAVRA_COMUM;
 
 /********************************************************************************
- * 								Function Description:							*		*
+ * 								Function Description:							*
  * 	Função que recebe um caractere e a posição correspondente ao dígito do 		*
  * 	display de 7 segmentos e então mostra esse caractere no dígito escolhido.	*
  *																				*
@@ -114,7 +123,10 @@ void Exibir_Unsigned_Int(uint16_t value);
  * 	@params:																	*
  * 	ALPHA letra - valor descrito pelo enum ALPHA representando a letra que irá  *
  * 	aparecer no display          												*
- * 	uint8_t num_display - dígito do display no qual aparecerá a letra desejada  *
+ * 	uint8_t num_display -valor correspondente ao dígito que se deseja imprimir	*
+ *  					  o caractere (são válidos valores de 1 a 4, sendo o 	*
+ *  					  valor 1 correspondente ao dígito mais a esquerda e o	*
+ *  					  valor 4 associado ao dígito mais a direita)           *
  * 																				*
  * 	OBS: Quando não é possível representar as letras k, m, v, w, x e z no 		*
  * 	display, portanto elas não existem.											*
@@ -143,7 +155,7 @@ bool Contagem_Regressiva(uint16_t start_number, uint16_t end_number);
 
 
 /********************************************************************************
- * 								Function Description:							*		*
+ * 								Function Description:							*
  * 	Função que mostra no display de 7 segmentos uma contagem progressiva 		*
  * 	partindo do "start_number" e incrementando de 1 em 1 segundo até atingir o	*
  * 	"end_number". OBS: é necessário que o "start_number" seja menor que o		*
@@ -157,17 +169,64 @@ bool Contagem_Regressiva(uint16_t start_number, uint16_t end_number);
  * 					 	  														*
  *  @return: (bool)																*
  *	true - se a contagem ocorreu como planejado e chegou ao final.				*
- *	false - valores inválidos recebidos como parâmetro.							*										*
+ *	false - valores inválidos recebidos como parâmetro.							*
  ********************************************************************************/
 bool Contagem_Progressiva(uint16_t start_number, uint16_t end_number);
 
 
 
 /********************************************************************************
- * 								Function Description:							*		*
+ * 								Function Description:							*
  * 	Função apaga todo o display.												*
  ********************************************************************************/
 void Apaga_Display();
+
+/********************************************************************************
+ * 								Function Description:							*
+ * Função que recebe uma palavra comum e exibe ela.                             *
+ * 	                                                                            *
+ * 	@params:																	*
+ * 	PALAVRA_COMUM palavra - Palavra a ser exibida (listada no enum              *
+ * 	PALAVRA_COMUM).                                                             *
+ ********************************************************************************/
+void Exibir_Palavra_Comum(PALAVRA_COMUM palavra);
+
+/********************************************************************************
+ * 								Function Description:							*
+ * Função que recebe um inteiro de 0 a 9999 e faz com que esse inteiro pisque   *
+ * por um tempo determinado (em segundos).                       *
+ * 	                                                                            *
+ * 	@params:																	*
+ * 	uint16_t inteiro - inteiro de 0 a 9999 que piscará.                         *
+ *  uint8_t tempo - tempo no qual o display ficará piscando                     *
+ ********************************************************************************/
+void Piscar_Int(uint16_t value, uint8_t tempo);
+
+/********************************************************************************
+ * 								Function Description:							*
+ * Função que recebe uma palavra comum e faz com que essa palavra pisque por um *
+ * tempo determinado (em segundos).						                        *
+ * 	                                                                            *
+ * 	@params:																	*
+ * 	PALAVRA_COMUM palavra - Palavra a ser exibida (listada no enum              *
+ * 	PALAVRA_COMUM).       							                            *
+ *  uint8_t tempo - tempo no qual o display ficará piscando.                     *
+ ********************************************************************************/
+void Piscar_Palavra_Comum(PALAVRA_COMUM palavra, uint8_t tempo);
+
+/********************************************************************************
+ * 								Function Description:							*
+ * Função que recebe quatro letras e faz com que elas apareçam no display 		*
+ * piscando por um tempo determinado						                    *
+ * 	                                                                            *
+ * 	@params:																	*
+ * 	LETRA letra1 - Letra a ser exibida no display 1       						*
+ * 	LETRA letra2 - Letra a ser exibida no display 2  	                        *
+ * 	LETRA letra3 - Letra a ser exibida no display 3  							*
+ * 	LETRA letra4 - Letra a ser exibida no display 4  							*
+ *  uint8_t tempo - tempo no qual o display ficará piscando.                    *
+ ********************************************************************************/
+void Piscar_Conjunto_Letras(LETRA letra1, LETRA letra2, LETRA letra3, LETRA letra4, uint8_t tempo);
 
 
 #endif /* MFS_DISPLAY4NUCLEO_64_STMF401_H_ */

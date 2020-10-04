@@ -99,20 +99,20 @@ void Envia_Codigo_Display(uint8_t carac, uint8_t num_display) {
 	serie = carac;
 	serie <<= 8;
 	switch(num_display){
-		case 1:
-			cod_display = DIGIT_1;
-			break;
-		case 2:
-			cod_display = DIGIT_2;
-			break;
-		case 3:
-			cod_display = DIGIT_3;
-			break;
-		case 4:
-			cod_display = DIGIT_4;
-			break;
-		default:
-			return;
+	case 1:
+		cod_display = DIGIT_1;
+		break;
+	case 2:
+		cod_display = DIGIT_2;
+		break;
+	case 3:
+		cod_display = DIGIT_3;
+		break;
+	case 4:
+		cod_display = DIGIT_4;
+		break;
+	default:
+		return;
 		break;
 	}
 	serie |= cod_display;
@@ -127,8 +127,8 @@ void Envia_Codigo_Display(uint8_t carac, uint8_t num_display) {
 		// Dê um pulso de clock em SRCLK para indicar ao Shift Register que o valor do bit deverá ser lido
 		HAL_GPIO_WritePin (GPIOA, SRCLK_Pin, 1);
 		HAL_GPIO_WritePin (GPIOA, SRCLK_Pin, 0);
-       // desloque a half word para a esquerda 1 posição de forma que o próximo bit seja o mais significativo
-       serie <<= 1;
+		// desloque a half word para a esquerda 1 posição de forma que o próximo bit seja o mais significativo
+		serie <<= 1;
 	}
 	// Dê um pulso de clock em RCLK_Pin para indicar ao Latch D que o valor do bit deverá ser lido
 	HAL_GPIO_WritePin (GPIOB, RCLK_Pin, 1);
@@ -169,7 +169,10 @@ void Exibir_Unsigned_Int(uint16_t value){
  * 	@params:																	*
  * 	ALPHA letra - valor descrito pelo enum ALPHA representando a letra que irá  *
  * 	aparecer no display          												*
- * 	uint8_t num_display - dígito do display no qual aparecerá a letra desejada  *
+ * 	uint8_t num_display -valor correspondente ao dígito que se deseja imprimir	*
+ *  					  o caractere (são válidos valores de 1 a 4, sendo o 	*
+ *  					  valor 1 correspondente ao dígito mais a esquerda e o	*
+ *  					  valor 4 associado ao dígito mais a direita)           *
  ********************************************************************************/
 void Exibir_Letra(LETRA letra, uint8_t num_display){
 	Envia_Codigo_Display(letra, num_display);
@@ -239,4 +242,153 @@ bool Contagem_Progressiva(uint16_t start_number, uint16_t end_number){
 		}
 	}
 	return true;
+}
+
+/********************************************************************************
+ * 								Function Description:							*
+ * Função que recebe uma palavra comum e exibe ela.                             *
+ * 	                                                                            *
+ * 	@params:																	*
+ * 	PALAVRA_COMUM palavra - Palavra a ser exibida (listada no enum              *
+ * 	PALAVRA_COMUM).                                                             *
+ ********************************************************************************/
+void Exibir_Palavra_Comum(PALAVRA_COMUM palavra){
+	switch(palavra){
+	case ON:
+		Exibir_Letra(LETRA_O, 3);
+		Exibir_Letra(LETRA_N, 4);
+		break;
+
+	case OFF:
+		Exibir_Letra(LETRA_O, 2);
+		Exibir_Letra(LETRA_F, 3);
+		Exibir_Letra(LETRA_F, 4);
+		break;
+
+	case YES:
+		Exibir_Letra(LETRA_Y, 2);
+		Exibir_Letra(LETRA_E, 3);
+		Exibir_Letra(LETRA_S, 4);
+		break;
+
+	case NO:
+		Exibir_Letra(LETRA_N, 3);
+		Exibir_Letra(LETRA_O, 4);
+		break;
+
+	case OPEN:
+		Exibir_Letra(LETRA_O, 1);
+		Exibir_Letra(LETRA_P, 2);
+		Exibir_Letra(LETRA_E, 3);
+		Exibir_Letra(LETRA_N, 4);
+		break;
+
+	case LOOP:
+		Exibir_Letra(LETRA_L, 1);
+		Exibir_Letra(LETRA_O, 2);
+		Exibir_Letra(LETRA_O, 3);
+		Exibir_Letra(LETRA_P, 4);
+		break;
+
+	default:
+		break;
+	}
+
+}
+
+
+/********************************************************************************
+ * 								Function Description:							*
+ * Função que recebe um inteiro de 0 a 9999 e faz com que esse inteiro pisque   *
+ * por um tempo determinado (em segundos).                       *
+ * 	                                                                            *
+ * 	@params:																	*
+ * 	uint16_t inteiro - inteiro de 0 a 9999 que piscará.                         *
+ *  uint8_t tempo - tempo no qual o display ficará piscando                     *
+ ********************************************************************************/
+void Piscar_Int(uint16_t value, uint8_t tempo){
+	//	Testando se o valor é válido:
+	if(value > 9999 || value < 0){
+		return;
+	}
+
+	int millis;
+
+	for(uint8_t i = 0; i < tempo/2; i++){
+		millis = HAL_GetTick();
+
+		while(HAL_GetTick() - millis < 500){
+			Exibir_Unsigned_Int(value);
+		}
+
+		while(HAL_GetTick() - millis < 1000){
+			Envia_Codigo_Display(0xFF, 1);
+			Envia_Codigo_Display(0xFF, 2);
+			Envia_Codigo_Display(0xFF, 3);
+			Envia_Codigo_Display(0xFF, 4);
+		}
+	}
+}
+
+/********************************************************************************
+ * 								Function Description:							*
+ * Função que recebe uma palavra comum e faz com que essa palavra pisque por um *
+ * tempo determinado (em segundos).						                        *
+ * 	                                                                            *
+ * 	@params:																	*
+ * 	PALAVRA_COMUM palavra - Palavra a ser exibida (listada no enum              *
+ * 	PALAVRA_COMUM).       							                            *
+ *  uint8_t tempo - tempo no qual o display ficará piscando.                     *
+ ********************************************************************************/
+void Piscar_Palavra_Comum(PALAVRA_COMUM palavra, uint8_t tempo){
+	int millis;
+
+	for(uint8_t i = 0; i < tempo/2; i++){
+		millis = HAL_GetTick();
+
+		while(HAL_GetTick() - millis < 500){
+			Exibir_Palavra_Comum(palavra);
+		}
+
+		while(HAL_GetTick() - millis < 1000){
+			Envia_Codigo_Display(0xFF, 1);
+			Envia_Codigo_Display(0xFF, 2);
+			Envia_Codigo_Display(0xFF, 3);
+			Envia_Codigo_Display(0xFF, 4);
+		}
+	}
+}
+
+/********************************************************************************
+ * 								Function Description:							*
+ * Função que recebe quatro letras e faz com que elas apareçam no display 		*
+ * piscando por um tempo determinado						                    *
+ * 	                                                                            *
+ * 	@params:																	*
+ * 	LETRA letra1 - Letra a ser exibida no display 1       						*
+ * 	LETRA letra2 - Letra a ser exibida no display 2  	                        *
+ * 	LETRA letra3 - Letra a ser exibida no display 3  							*
+ * 	LETRA letra4 - Letra a ser exibida no display 4  							*
+ *  uint8_t tempo - tempo no qual o display ficará piscando.                    *
+ ********************************************************************************/
+void Piscar_Conjunto_Letras(LETRA letra1, LETRA letra2, LETRA letra3, LETRA letra4, uint8_t tempo){
+	int millis;
+
+	for(uint8_t i = 0; i < tempo/2; i++){
+		millis = HAL_GetTick();
+
+		while(HAL_GetTick() - millis < 500){
+			Exibir_Letra(letra1, 1);
+			Exibir_Letra(letra2, 2);
+			Exibir_Letra(letra3, 3);
+			Exibir_Letra(letra4, 4);
+		}
+
+		while(HAL_GetTick() - millis < 1000){
+			Envia_Codigo_Display(0xFF, 1);
+			Envia_Codigo_Display(0xFF, 2);
+			Envia_Codigo_Display(0xFF, 3);
+			Envia_Codigo_Display(0xFF, 4);
+		}
+	}
 }
