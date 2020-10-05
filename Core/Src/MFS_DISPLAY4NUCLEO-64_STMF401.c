@@ -38,6 +38,7 @@
 #include "main.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 
@@ -447,4 +448,47 @@ void Piscar_String(const char *string, uint8_t tempo){
 			Envia_Codigo_Display(0xFF, 4);
 		}
 	}
+}
+
+/********************************************************************************
+ * 								Function Description:							*
+ * Função que faz com que uma string "passe" pelo display de 7 segmentos. Dessa *
+ * forma, o primeiro caracter começa aparecendo no display 4, depois vai para o *
+ * 3, e o segundo aparece no 4 e assim em diante até que o ultimo caracter passe*
+ * pelo display 1 e a string acabe.									            *
+ * 	                                                                            *
+ *  @params:																	*
+ * 	const char *string  - string a ser "passada" pelo display                   *
+ * 																				*
+ * 	OBS1: Não é possível representar as letras k, m, v, w, x e z no display,    *
+ * 	portanto elas são colocadas com 3 traços.       							*
+ * 																				*
+ *  OBS3: Essa função não apresenta caracteres especiais, como '_', '-', ',',   *
+ *  ' ', '*', etc...															*
+ ********************************************************************************/
+void PassarString(const char *string){
+
+	// Se a string estiver vazia não exibe nada
+	if(strlen(string) < 1)
+		return;
+
+	char *aux = "---";
+
+	char *new_str = malloc(strlen(string) + 2*strlen(aux) + 1);
+
+	strcpy(new_str, aux);
+	strcat(new_str, string);
+	strcat(new_str, aux);
+
+	int millis;
+
+	for (uint8_t i = 0; i < strlen(new_str); i++){
+		millis = HAL_GetTick();
+
+		while(HAL_GetTick() - millis < 500){
+			Exibir_String(new_str + i);
+		}
+	}
+
+	free(new_str);
 }

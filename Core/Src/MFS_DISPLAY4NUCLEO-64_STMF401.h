@@ -214,7 +214,7 @@ void Piscar_Palavra_Comum(PALAVRA_COMUM palavra, uint8_t tempo);
 
 /********************************************************************************
  * 								Function Description:							*
- * Função que recebe uma string e pisca ela	por um tempo determinado.n          *
+ * Função que recebe uma string e pisca ela	por um tempo determinado.           *
  * 	                                                                            *
  *  @params:																	*
  * 	const char *string  - string a ser exibida no display                       *
@@ -230,6 +230,25 @@ void Piscar_Palavra_Comum(PALAVRA_COMUM palavra, uint8_t tempo);
  *  ' ', '*', etc...															*
  ********************************************************************************/
 void Piscar_String(const char *string, uint8_t tempo);
+
+
+/********************************************************************************
+ * 								Function Description:							*
+ * Função que faz com que uma string "passe" pelo display de 7 segmentos. Dessa *
+ * forma, o primeiro caracter começa aparecendo no display 4, depois vai para o *
+ * 3, e o segundo aparece no 4 e assim em diante até que o ultimo caracter passe*
+ * pelo display 1 e a string acabe.									            *
+ * 	                                                                            *
+ *  @params:																	*
+ * 	const char *string  - string a ser "passada" pelo display                   *
+ * 																				*
+ * 	OBS1: Não é possível representar as letras k, m, v, w, x e z no display,    *
+ * 	portanto elas são colocadas com 3 traços.       							*
+ * 																				*
+ *  OBS3: Essa função não apresenta caracteres especiais, como '_', '-', ',',   *
+ *  ' ', '*', etc...															*
+ ********************************************************************************/
+void PassarString(const char *string);
 
 
 #endif /* MFS_DISPLAY4NUCLEO_64_STMF401_H_ */

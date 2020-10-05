@@ -123,4 +123,15 @@ Essa função recebe uma palavra comum e exibe ela. As palavras que ela podem re
 
     OBS3: Essa função não apresenta caractéres especiais, como '_', '-', ',', ' ', '*', etc...
 
+12 - void PassarString(const char *string) 
+
+    Essa função que faz com que uma string "passe" pelo display de 7 segmentos. Dessa forma, o primeiro caracter começa aparecendo no display 4, depois vai para o 3, e o segundo aparece no 4 e assim em diante até que o ultimo caracter passe pelo display 1 e a string acabe.
+
+    Parâmetros:
+  	const char *string  - string a ser "passada" pelo display.
+ 																				
+ 	OBS1: Não é possível representar as letras k, m, v, w, x e z no display, portanto elas são colocadas com 3 traços. 
+ 																				
+    OBS3: Essa função não apresenta caracteres especiais, como '_', '-', ',', ' ', '*', etc...
+
    
