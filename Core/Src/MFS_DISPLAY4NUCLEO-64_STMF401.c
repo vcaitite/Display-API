@@ -37,6 +37,10 @@
 #include "MFS_DISPLAY4NUCLEO-64_STMF401.h"
 #include "main.h"
 
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
 // Segment byte maps for numbers 0 to 9
 // {   0,   1,   2,   3,   4,   5,   6,   7,   8,   9};
 // {0xC0,0xF9,0xA4,0xB0,0x99,0x92,0x82,0xF8,0X80,0X90};
@@ -173,15 +177,24 @@ void Exibir_Unsigned_Int(uint16_t value){
  *  					  valor 4 associado ao dígito mais a direita)			*
  * 																				*
  * 	OBS1: Não é possível representar as letras k, m, v, w, x e z no display,    *
- * 	portanto elas são colocadas com 3 traços.  									*
+ * 	portanto elas são colocadas com 3 traços.									*
+ * 																				*
+ *  OBS2: Essa função não apresenta caracteres especiais, como '_', '-', ',',   *
+ *  ' ', '*', etc...															*
  ********************************************************************************/
 void Exibir_Char(char carac, uint8_t num_display){
-	carac = tolower(carac);
-	char a = 'a';
+	uint8_t aux = tolower(carac) - '0';
 
-	int aux = (int)(carac) - (int)a;
+	if(aux >= 0 && aux < 10)
+		Envia_Codigo_Display(SEGMENT_MAP_DIGIT[aux], num_display);
+	else{
+		uint8_t valor_a = 'a' - '0';
 
-	Envia_Codigo_Display(SEGMENT_MAP_CHAR[aux], num_display);
+		aux = aux - valor_a;
+
+		if(aux >= 0 && aux < 26)
+			Envia_Codigo_Display(SEGMENT_MAP_CHAR[aux], num_display);
+	}
 }
 
 /********************************************************************************
@@ -196,6 +209,9 @@ void Exibir_Char(char carac, uint8_t num_display){
  * 																				*
  * 	OBS2: Ao tentar colocar uma palavra de mais de 4 digitos, o display exibirá *
  * 	apenas os 4 primeiros 														*
+ * 																				*
+ *  OBS3: Essa função não apresenta caracteres especiais, como '_', '-', ',',   *
+ *  ' ', '*', etc...															*
  ********************************************************************************/
 void Exibir_String(const char *string){
 	Apaga_Display();
@@ -310,8 +326,8 @@ void Exibir_Palavra_Comum(PALAVRA_COMUM palavra){
 		break;
 
 	case NO:
-		Exibir_Char("N", 3);
-		Exibir_Char("O", 4);
+		Exibir_Char('N', 3);
+		Exibir_Char('O', 4);
 		break;
 
 	case OPEN:
@@ -338,7 +354,7 @@ void Exibir_Palavra_Comum(PALAVRA_COMUM palavra){
 /********************************************************************************
  * 								Function Description:							*
  * Função que recebe um inteiro de 0 a 9999 e faz com que esse inteiro pisque   *
- * por um tempo determinado (em segundos).                       *
+ * por um tempo determinado (em segundos).                       				*
  * 	                                                                            *
  * 	@params:																	*
  * 	uint16_t inteiro - inteiro de 0 a 9999 que piscará.                         *
@@ -399,7 +415,7 @@ void Piscar_Palavra_Comum(PALAVRA_COMUM palavra, uint8_t tempo){
 
 /********************************************************************************
  * 								Function Description:							*
- * Função que recebe uma string e pisca ela	por um tempo determinado.n          *
+ * Função que recebe uma string e pisca ela	por um tempo determinado.           *
  * 	                                                                            *
  *  @params:																	*
  * 	const char *string  - string a ser exibida no display                       *
@@ -410,22 +426,25 @@ void Piscar_Palavra_Comum(PALAVRA_COMUM palavra, uint8_t tempo){
  * 																				*
  * 	OBS2: Ao tentar colocar uma palavra de mais de 4 digitos, o display exibirá *
  * 	apenas os 4 primeiros   								                    *
+ * 																				*
+ *  OBS3: Essa função não apresenta caracteres especiais, como '_', '-', ',',   *
+ *  ' ', '*', etc...															*
  ********************************************************************************/
 void Piscar_String(const char *string, uint8_t tempo){
 	int millis;
 
-		for(uint8_t i = 0; i < tempo/2; i++){
-			millis = HAL_GetTick();
+	for(uint8_t i = 0; i < tempo/2; i++){
+		millis = HAL_GetTick();
 
-			while(HAL_GetTick() - millis < 500){
-				Exibir_String(string);
-			}
-
-			while(HAL_GetTick() - millis < 1000){
-				Envia_Codigo_Display(0xFF, 1);
-				Envia_Codigo_Display(0xFF, 2);
-				Envia_Codigo_Display(0xFF, 3);
-				Envia_Codigo_Display(0xFF, 4);
-			}
+		while(HAL_GetTick() - millis < 500){
+			Exibir_String(string);
 		}
+
+		while(HAL_GetTick() - millis < 1000){
+			Envia_Codigo_Display(0xFF, 1);
+			Envia_Codigo_Display(0xFF, 2);
+			Envia_Codigo_Display(0xFF, 3);
+			Envia_Codigo_Display(0xFF, 4);
+		}
+	}
 }

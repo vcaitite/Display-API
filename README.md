@@ -35,6 +35,9 @@ Abaixo um resumo das funções desenvolvidas:
   																				
   	OBS1: Não é possível representar as letras k, m, v, w, x e z no display, portanto elas são colocadas com 3 traços. 
 
+    OBS2: Essa função não apresenta caractéres especiais, como '_', '-', ',', ' ', '*', etc...
+
+
 4 - void Exibir_String(const char *string)
 
     Essa função exibe uma string no do display de 7 segmentos.	
@@ -45,6 +48,8 @@ Abaixo um resumo das funções desenvolvidas:
   	OBS1: Não é possível representar as letras k, m, v, w, x e z no display, portanto elas são colocadas com 3 traços. 
   																				
   	OBS2: Ao tentar colocar uma palavra de mais de 4 digitos, o display exibirá apenas os 4 primeiros.
+
+    OBS3: Essa função não apresenta caractéres especiais, como '_', '-', ',', ' ', '*', etc...
 	
 5 - bool Contagem_Regressiva(uint16_t start_number, uint16_t end_number)
 
@@ -114,7 +119,8 @@ Essa função recebe uma palavra comum e exibe ela. As palavras que ela podem re
   																			
   	OBS1: Não é possível representar as letras k, m, v, w, x e z no display, portanto elas são colocadas com 3 traços.
   																				
-  	OBS2: Ao tentar colocar uma palavra de mais de 4 digitos, o display exibirá 
-  	apenas os 4 primeiros 
+  	OBS2: Ao tentar colocar uma palavra de mais de 4 digitos, o display exibirá apenas os 4 primeiros.
+
+    OBS3: Essa função não apresenta caractéres especiais, como '_', '-', ',', ' ', '*', etc...
 
    

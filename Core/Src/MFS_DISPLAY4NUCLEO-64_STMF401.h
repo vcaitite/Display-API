@@ -107,6 +107,9 @@ void Exibir_Unsigned_Int(uint16_t value);
  * 																				*
  * 	OBS1: Não é possível representar as letras k, m, v, w, x e z no display,    *
  * 	portanto elas são colocadas com 3 traços.  									*
+ * 																				*
+ *  OBS2: Essa função não apresenta caracteres especiais, como '_', '-', ',',   *
+ *  ' ', '*', etc...															*
  ********************************************************************************/
 void Exibir_Char(char carac, uint8_t num_display);
 
@@ -122,6 +125,9 @@ void Exibir_Char(char carac, uint8_t num_display);
  * 																				*
  * 	OBS2: Ao tentar colocar uma palavra de mais de 4 digitos, o display exibirá *
  * 	apenas os 4 primeiros 														*
+ * 																				*
+ *  OBS3: Essa função não apresenta caracteres especiais, como '_', '-', ',',   *
+ *  ' ', '*', etc...															*
  ********************************************************************************/
 void Exibir_String(const char *string);
 
@@ -219,6 +225,9 @@ void Piscar_Palavra_Comum(PALAVRA_COMUM palavra, uint8_t tempo);
  * 																				*
  * 	OBS2: Ao tentar colocar uma palavra de mais de 4 digitos, o display exibirá *
  * 	apenas os 4 primeiros   								                    *
+ * 																				*
+ *  OBS3: Essa função não apresenta caracteres especiais, como '_', '-', ',',   *
+ *  ' ', '*', etc...															*
  ********************************************************************************/
 void Piscar_String(const char *string, uint8_t tempo);
 
