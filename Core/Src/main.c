@@ -105,7 +105,7 @@ int main(void)
 	  	break;
 	  	case 1:
 	  		PassarString("9999 to 9990");
-	  		Contagem_Progressiva(9999, 9990);
+	  		Contagem_Regressiva(9999, 9990);
 	  		PassarString("finish");
 	  	break;
 	  	case 2:
