@@ -19,6 +19,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "MFS_DISPLAY4NUCLEO-64_STMF401.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -91,18 +92,24 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   Apaga_Display();
+  Piscar_Palavra_Comum(0, 8);
+  PassarString("Press buttons");
   while (1)
   {
 	  //Apaga_Display(); // Apaga os 4 Displays
 	  switch(estado) {
 	   	case 0:
-	   		Exibir_Unsigned_Int(15);
+	   		PassarString("0 to 10");
+	   		Contagem_Progressiva(0, 10);
+	   		PassarString("finish");
 	  	break;
 	  	case 1:
-	  		Contagem_Progressiva(0, 16);
+	  		PassarString("9999 to 9990");
+	  		Contagem_Progressiva(9999, 9990);
+	  		PassarString("finish");
 	  	break;
 	  	case 2:
-	  		Contagem_Regressiva(9999, 9985);
+	  		PassarString(" NUCLEO 64 F401 - API DISPLAY");
 	  	break;
 	  	default:
 	  	break;

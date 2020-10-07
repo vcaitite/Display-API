@@ -1,11 +1,21 @@
 /*
  *  MFS_DISPLAY4NUCLEO-64_STMF401.h
  *  Copyright (C) 2020  Vítor Gabriel Reis Caitité <vitorgabriel1000@hotmail.com>
+ *  and Amanda Alkmim Rezende Teixeira: amandaarteixeira@hotmail.com.
  *  Version 1.0 - API with the following implemented functions:
- *  void Alterna_LEDs(void);
- *	void Acende_LEDs(void);
- *	void Apaga_LEDs(void);
- *	void Envia_Codigo_Display(uint8_t carac, uint8_t num_display);
+ *
+ *  void Envia_Codigo_Display(uint8_t carac, uint8_t num_display);
+ *	void Exibir_Unsigned_Int(uint16_t value);
+ *	void Exibir_Char(char carac, uint8_t num_display);
+ *	void Exibir_String(const char *string);
+ *	bool Contagem_Regressiva(uint16_t start_number, uint16_t end_number);
+ *	bool Contagem_Progressiva(uint16_t start_number, uint16_t end_number);
+ *	void Apaga_Display();
+ *	void Exibir_Palavra_Comum(PALAVRA_COMUM palavra);
+ *	void Piscar_Int(uint16_t value, uint8_t tempo);
+ *	void Piscar_Palavra_Comum(PALAVRA_COMUM palavra, uint8_t tempo);
+ *	void Piscar_String(const char *string, uint8_t tempo);
+ *	void PassarString(const char *string);
  *
  *  Based on MultiFuncShield-Library-1_3 implementation accessed at
  *  https://www.cohesivecomputing.co.uk/hackatronics/arduino-multi-function-shield/
@@ -34,13 +44,6 @@
  *  Bit Banging programming technique.
  */
 
-
-
-// IDEIAS:
-// Display specific variables for future new display functions implementations
-// void Envia_String_Display(uint8_t carac[4], uint8_t num_display)
-// void Envia_Signed_Display(int8_t, uint8_t num_display)
-// void Envia_Float_Display(float, uint8_t num_display)
 
 
 #ifndef MFS_DISPLAY4NUCLEO_64_STMF401_H_
