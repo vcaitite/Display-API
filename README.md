@@ -1,6 +1,7 @@
 Esta é uma API para o display de 7 segmentos da placa de expansão do arduino.
 
-Essa API foi feita para a plataforma de desenvolvimento ST32F401RE. Tentar utilizá-la em outras plataformas pode resultar em erro.
+Essa API foi feita para a plataforma de desenvolvimento ST32F401RE, com a intenção de facilitar a utilização do recurso display de sete segmentos da shield MFS (MultiFuncShield).
+Disponível em: https://www.cohesivecomputing.co.uk/hackatronics/arduino-multi-function-shield/ . Tentar utilizá-la em outras plataformas pode resultar em erro.
 
 A API em si corresponde aos arquivos Core/Src/MFS_DISPLAY4NUCLEO64-STMF401.h e Core/Src/MFS_DISPLAY4NUCLEO64-STMF401.c. Os outros arquivos são para configuração do sistema, feita através do STMCubeMx e exemplo de utilização (Core/Src/main.c).
 
