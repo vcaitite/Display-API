@@ -2,7 +2,7 @@ Esta é uma API para o display de 7 segmentos da placa de expansão do arduino.
 
 Essa API foi feita para a plataforma de desenvolvimento ST32F401RE. Tentar utilizá-la em outras plataformas pode resultar em erro.
 
-A API em si corresponde aos arquivos MFS_DISPLAY4NUCLEO64-STMF401.h e MFS_DISPLAY4NUCLEO64-STMF401.c. Os outros arquivos são para configuração do sistema, feita através do STMCubeMx e exemplo de utilização.
+A API em si corresponde aos arquivos Core/Src/MFS_DISPLAY4NUCLEO64-STMF401.h e Core/Src/MFS_DISPLAY4NUCLEO64-STMF401.c. Os outros arquivos são para configuração do sistema, feita através do STMCubeMx e exemplo de utilização (Core/Src/main.c).
 
 Para mais informações entre em contato com os desenvolvedores:
 
@@ -135,3 +135,8 @@ Essa função recebe uma palavra comum e exibe ela. As palavras que ela podem re
     OBS3: Essa função não apresenta caracteres especiais, como '_', '-', ',', ' ', '*', etc...
 
    
+
+
+No programa de main.c podemos ver a utilização de algumas dessas funções acima. O programa inicia-se piscando a palavra on durante alguns segundos e depois exibe a
+frase "press buttons", encorajando o usuário a pressionar os botões do shield. Ao pressionar o botão 1 é feita uma contagem de 0 a 10. Ao pressionar o botão 2 é feita
+uma contagem regressiiva de 9999 a 9990. Ao pressionar o botão 3, o nome da placa é exibido.  

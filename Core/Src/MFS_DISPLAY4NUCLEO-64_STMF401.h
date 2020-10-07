@@ -35,13 +35,11 @@
  *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
  *  Created on: 30 de setembro de 2020
- *  This API contain functions to provide use of some hardware resources
- *  from MFS (MultiFuncShield) available at:
+ *  This API contain functions to provide use for Four Seven-segments Display (HS410361)
+ *  programmed by two 74HC595 chips using  Bit Banging programming technique. This API 
+ *  provide resourses just for the Seven-segments Display from MFS (MultiFuncShield) 
+ *  available at:
  *  https://www.cohesivecomputing.co.uk/hackatronics/arduino-multi-function-shield/
- *  Push-button switches (SW1, SW2, SW3) attended by Rising Edge External Interrupt.
- *  Leds (D1, D2, D3 and D4).
- *  Four Seven-segments Display (HS410361) programmed by two 74HC595 chips using
- *  Bit Banging programming technique.
  */
 
 
