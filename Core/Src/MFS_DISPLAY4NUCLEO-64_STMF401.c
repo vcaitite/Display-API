@@ -94,16 +94,17 @@ void Apaga_Display(){
 }
 
 /********************************************************************************
- * 								Function Description:							*		*
- * 	Função que recebe um caractere e a posição correspondente ao dígito do 		*
- * 	display de 7 segmentos e então mostra esse caractere no dígito escolhido.	*
+ * 								Function Description:							*
+ * 	Função que recebe um caractere e a posição correspondente ao display de 7   *
+ *  segmentos no qual se deseja exibir o caracter e então mostra esse caractere *
+ *  no dísplay escolhido.	                                                    *
  *																				*
  * 	@params:																	*
  * 	uint8_t carac - código do caractere que se deseja imprimir.					*
- * 	uint8_t num_display - valor correspondente ao dígito que se deseja imprimir	*
- *  					  o caractere (são válidos valores de 1 a 4, sendo o 	*
- *  					  valor 1 correspondente ao dígito mais a esquerda e o	*
- *  					  valor 4 associado ao dígito mais a direita)			*
+ * 	uint8_t num_display - valor correspondente ao display no qual se deseja     *
+ *  mostrar o caractere (são válidos valores de 1 a 4, sendo o valor 1          *
+ * correspondente ao dísplay mais a esquerda e o valor 4 associado ao display   *
+ * mais a direita)			                                                    *
  ********************************************************************************/
 void Envia_Codigo_Display(uint8_t carac, uint8_t num_display) {
 	static uint8_t i = 0;
@@ -176,17 +177,17 @@ void Exibir_Unsigned_Int(uint16_t value){
 
 /********************************************************************************
  * 								Function Description:							*
- * 	Função que exibe um caractere no digito escolhido do display de 7 segmentos.*
+ * 	Função que exibe um caractere no display de 7 segmentos escolhido.          *
  *																				*
  * 	@params:																	*
  * 	const char caractere - caractere a ser exibido no dispay                    *
- * 	uint8_t num_display - valor correspondente ao dígito que se deseja imprimir	*
- *  					  o caractere (são válidos valores de 1 a 4, sendo o 	*
- *  					  valor 1 correspondente ao dígito mais a esquerda e o	*
- *  					  valor 4 associado ao dígito mais a direita)			*
+ *  uint8_t num_display - valor correspondente ao display no qual se deseja     *
+ *  mostrar o caractere (são válidos valores de 1 a 4, sendo o valor 1          *
+ *  correspondente ao dísplay mais a esquerda e o valor 4 associado ao display  *
+ *  mais a direita)                                                             *
  * 																				*
  * 	OBS1: Não é possível representar as letras k, m, v, w, x e z no display,    *
- * 	portanto elas são colocadas com 3 traços.									*
+ * 	portanto elas são colocadas com 3 traços.  									*
  * 																				*
  *  OBS2: Essa função não apresenta caracteres especiais, como '_', '-', ',',   *
  *  ' ', '*', etc...															*
@@ -367,7 +368,7 @@ void Exibir_Palavra_Comum(PALAVRA_COMUM palavra){
  * 	                                                                            *
  * 	@params:																	*
  * 	uint16_t inteiro - inteiro de 0 a 9999 que piscará.                         *
- *  uint8_t tempo - tempo no qual o display ficará piscando                     *
+ *  uint8_t tempo - tempo (em segundos) no qual o display ficará piscando       *
  ********************************************************************************/
 void Piscar_Int(uint16_t value, uint8_t tempo){
 	//	Testando se o valor é válido:
@@ -401,7 +402,7 @@ void Piscar_Int(uint16_t value, uint8_t tempo){
  * 	@params:																	*
  * 	PALAVRA_COMUM palavra - Palavra a ser exibida (listada no enum              *
  * 	PALAVRA_COMUM).       							                            *
- *  uint8_t tempo - tempo no qual o display ficará piscando.                     *
+ *  uint8_t tempo - tempo (em segundos) no qual o display ficará piscando.      *
  ********************************************************************************/
 void Piscar_Palavra_Comum(PALAVRA_COMUM palavra, uint8_t tempo){
 	int millis;
@@ -424,11 +425,12 @@ void Piscar_Palavra_Comum(PALAVRA_COMUM palavra, uint8_t tempo){
 
 /********************************************************************************
  * 								Function Description:							*
- * Função que recebe uma string e pisca ela	por um tempo determinado.           *
+ * Função que recebe uma string e pisca ela	por um tempo determinado (em        *
+ * segundos).                                                                   *
  * 	                                                                            *
  *  @params:																	*
  * 	const char *string  - string a ser exibida no display                       *
- * 	uint8_t tempo - tempo no qual o display ficará piscando. 					*
+ * 	uint8_t tempo - tempo (em segundos) no qual o display ficará piscando.   	*
  * 																				*
  * 	OBS1: Não é possível representar as letras k, m, v, w, x e z no display,    *
  * 	portanto elas são colocadas com 3 traços.       							*

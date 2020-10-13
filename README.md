@@ -1,7 +1,5 @@
-Esta é uma API para o display de 7 segmentos da placa de expansão do arduino.
-
-Essa API foi feita para a plataforma de desenvolvimento ST32F401RE, com a intenção de facilitar a utilização do recurso display de sete segmentos da shield MFS (MultiFuncShield).
-Disponível em: https://www.cohesivecomputing.co.uk/hackatronics/arduino-multi-function-shield/ . Tentar utilizá-la em outras plataformas pode resultar em erro.
+Introduction:
+This API was developed as a work in the discipline of Embedded Systems Programming at UFMG - Prof. Ricardo de Oliveira Duarte - Department of Electronic Engineering. Library is developed and tested with Stm32F401RE (Nucleo 64 board) and arduino shield MFS (MultiFuncShield). You can check the examples given. Veja modelo em: https://github.com/vcaitite/Display_API.git
 
 A API em si corresponde aos arquivos Core/Src/MFS_DISPLAY4NUCLEO64-STMF401.h e Core/Src/MFS_DISPLAY4NUCLEO64-STMF401.c. Os outros arquivos são para configuração do sistema, feita através do STMCubeMx e exemplo de utilização (Core/Src/main.c).
 
@@ -13,11 +11,11 @@ Abaixo um resumo das funções desenvolvidas:
 
 1 - void Envia_Codigo_Display(uint8_t carac, uint8_t num_display)
 
-    Essa função recebe um caractere e a posição correspondente ao dígito do	display de 7 segmentos e mostra esse caractere no dígito escolhido.
+    Essa função recebe um caractere e qual dos quatro displays de 7 segmentos deseja-se exibir o caracter e mostra esse caractere no display escolhido.
 
     Parâmetros:
   	uint8_t carac - código do caractere que se deseja imprimir.	
-  	uint8_t num_display - valor correspondente ao dígito que se deseja imprimir	o caractere (são válidos valores de 1 a 4, sendo o valor 1 correspondente ao dígito mais a esquerda e o	valor 4 associado ao dígito mais a direita)
+  	uint8_t num_display - valor correspondente ao display no qual se deseja mostrar o caractere (são válidos valores de 1 a 4, sendo o valor 1 correspondente ao dísplay mais a esquerda e o valor 4 associado ao display mais a direita)
 
 2 - void Exibir_Unsigned_Int(uint16_t value)
 
@@ -28,11 +26,12 @@ Abaixo um resumo das funções desenvolvidas:
 
 3 - void Exibir_Char(char carac, uint8_t num_display)
     
-    Essa função exibe um caractere no digito escolhido do display de 7 segmentos.
+    Essa função exibe um caractere no display de 7 segmentos escolhido.
 
     Parâmetros:
   	const char caractere - caractere a ser exibido no dispay 
-  	uint8_t num_display - valor correspondente ao dígito que se deseja imprimir o caractere (são válidos valores de 1 a 4, sendo o valor 1 correspondente ao dígito mais a esquerda e o valor 4 associado ao dígito mais a direita).	
+  	uint8_t num_display - valor correspondente ao display no qual se deseja mostrar o caractere (são válidos valores de 1 a 4, sendo o valor 1 correspondente ao dísplay mais a esquerda e o valor 4 associado ao display mais a direita).
+	
   																				
   	OBS1: Não é possível representar as letras k, m, v, w, x e z no display, portanto elas são colocadas com 3 traços. 
 
@@ -54,7 +53,7 @@ Abaixo um resumo das funções desenvolvidas:
 	
 5 - bool Contagem_Regressiva(uint16_t start_number, uint16_t end_number)
 
-    Essa função realiza uma contagem pregressiva do número start_number ao número end_number. Sendo que start_number deve ser sempre maior que end_number.
+    Essa função realiza uma contagem regressiva do número start_number ao número end_number. Sendo que start_number deve ser sempre maior que end_number.
 
     Parâmetros:
 																	
@@ -89,7 +88,7 @@ Abaixo um resumo das funções desenvolvidas:
 
 8 - void Exibir_Palavra_Comum(PALAVRA_COMUM palavra)
     
-Essa função recebe uma palavra comum e exibe ela. As palavras que ela podem receber estão enumeradas no enum PALAVRA_COMUM
+Essa função recebe uma palavra comum e exibe ela. As palavras que ela podem receber estão enumeradas no enum PALAVRA_COMUM. Esse enum de PALAVRA_COMUM é uma forma de listar para o usuário palavras que se pode utilizar com somente os 4 displays de 7 segmentos e a limitação de letras que não são possíveis de mostrar no display.
 
     Parãmetros:
  	PALAVRA_COMUM palavra - Palavra a ser exibida (listada no enum PALAVRA_COMUM).
@@ -100,7 +99,7 @@ Essa função recebe uma palavra comum e exibe ela. As palavras que ela podem re
 
     Parâmetros:
  	uint16_t inteiro - inteiro de 0 a 9999 que piscará.
-    uint8_t tempo - tempo no qual o display ficará piscando.
+    uint8_t tempo - tempo (em segundos) no qual o display ficará piscando. 
 
 10 - void Piscar_Palavra_Comum(PALAVRA_COMUM palavra, uint8_t tempo)
 
@@ -108,15 +107,15 @@ Essa função recebe uma palavra comum e exibe ela. As palavras que ela podem re
 
     Parâmetros:
  	PALAVRA_COMUM palavra - Palavra a ser exibida (listada no enum PALAVRA_COMUM).
-    uint8_t tempo - tempo no qual o display ficará piscando. 
+    uint8_t tempo - tempo (em segundos) no qual o display ficará piscando. 
 
 11 - void Piscar_String(const char *string, uint8_t tempo)
     
-     Essa função que recebe uma string e pisca ela	por um tempo determinado.
+     Essa função que recebe uma string e pisca ela por um tempo determinado (em segundos).
 
     Parâmetros:
   	const char *string  - string a ser exibida no display.
-  	uint8_t tempo - tempo no qual o display ficará piscando. 
+  	uint8_t tempo - tempo (em segundos) no qual o display ficará piscando. 
   																			
   	OBS1: Não é possível representar as letras k, m, v, w, x e z no display, portanto elas são colocadas com 3 traços.
   																				
