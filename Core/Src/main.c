@@ -100,13 +100,19 @@ int main(void)
 	  switch(estado) {
 	   	case 0:
 	   		PassarString("0 to 10");
-	   		Contagem_Progressiva(0, 10);
-	   		PassarString("finish");
+	   		if(Contagem_Progressiva(0, 10) == COUNT_OK){
+	   			PassarString("finish");
+	   		} else {
+	   			PassarString("error");
+	   		}
 	  	break;
 	  	case 1:
 	  		PassarString("9999 to 9990");
-	  		Contagem_Regressiva(9999, 9990);
-	  		PassarString("finish");
+	  		if(Contagem_Regressiva(9999, 9990) == COUNT_OK){
+	  			PassarString("finish");
+	  		} else {
+	  			PassarString("error");
+	  		}
 	  	break;
 	  	case 2:
 	  		PassarString(" NUCLEO 64 F401 - API DISPLAY");

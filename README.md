@@ -62,8 +62,9 @@ Abaixo um resumo das funções desenvolvidas:
 
     Essa função retorna:
 														
- 	true - se a contagem ocorreu como planejado e chegou ao final.
- 	false - valores inválidos recebidos como parâmetro.
+ 	COUNT_OK (0), caso a contagem termine como esperado.						
+ 	COUNT_NOT_OK (1), caso a contagem não tenha terminado no valor especificado.
+ 	PARAMS_NOT_VALID (2), a função recebeu algum parâmetro inválido.			
 		
 
 6 - bool Contagem_Progressiva(uint16_t start_number, uint16_t end_number)
@@ -77,8 +78,9 @@ Abaixo um resumo das funções desenvolvidas:
 
     Essa função retorna:
 														
- 	true - se a contagem ocorreu como planejado e chegou ao final.
- 	false - valores inválidos recebidos como parâmetro.
+ 	COUNT_OK (0), caso a contagem termine como esperado.						
+ 	COUNT_NOT_OK (1), caso a contagem não tenha terminado no valor especificado.
+ 	PARAMS_NOT_VALID (2), a função recebeu algum parâmetro inválido.			
 		
 
 7 - void Apaga_Display()

@@ -76,6 +76,12 @@ typedef enum {
 	LOOP
 } PALAVRA_COMUM;
 
+typedef enum {
+	COUNT_OK,
+	COUNT_NOT_OK,
+	PARAMS_NOT_VALID
+} COUNT_ERROR;
+
 /********************************************************************************
  * 								Function Description:							*
  * 	Função que recebe um caractere e a posição correspondente ao display de 7   *
@@ -152,10 +158,11 @@ void Exibir_String(const char *string);
  *	uint16_t end_number - valor de 0 a 9998 que deseja que se encerre a  		*
  * 					 	  regressiva.											*
  *  @return: (bool)																*
- *	true - se a contagem ocorreu como planejado e chegou ao final.				*
- *	false - valores inválidos recebidos como parâmetro.							*
+ *	COUNT_OK (0), caso a contagem termine como esperado.						*
+ *	COUNT_NOT_OK (1), caso a contagem não tenha terminado no valor especificado.*
+ *	PARAMS_NOT_VALID (2), a função recebeu algum parâmetro inválido.			*
  ********************************************************************************/
-bool Contagem_Regressiva(uint16_t start_number, uint16_t end_number);
+COUNT_ERROR Contagem_Regressiva(uint16_t start_number, uint16_t end_number);
 
 
 
@@ -173,10 +180,11 @@ bool Contagem_Regressiva(uint16_t start_number, uint16_t end_number);
  * 					 	  progressiva.											*
  * 					 	  														*
  *  @return: (bool)																*
- *	true - se a contagem ocorreu como planejado e chegou ao final.				*
- *	false - valores inválidos recebidos como parâmetro.							*
+ *	COUNT_OK (0), caso a contagem termine como esperado.						*
+ *	COUNT_NOT_OK (1), caso a contagem não tenha terminado no valor especificado.*
+ *	PARAMS_NOT_VALID (2), a função recebeu algum parâmetro inválido.			*
  ********************************************************************************/
-bool Contagem_Progressiva(uint16_t start_number, uint16_t end_number);
+COUNT_ERROR Contagem_Progressiva(uint16_t start_number, uint16_t end_number);
 
 
 

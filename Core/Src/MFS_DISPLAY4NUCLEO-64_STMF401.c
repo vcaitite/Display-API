@@ -242,7 +242,7 @@ void Exibir_String(const char *string){
 
 
 /********************************************************************************
- * 								Function Description:							*		*
+ * 								Function Description:							*
  * 	Função que mostra no display de 7 segmentos uma contagem regressiva 		*
  * 	partindo do "start_number" e decrementando de 1 em 1 segundo até atingir o	*
  * 	"end_number". OBS: é necessário que o "start_number" seja maior que o		*
@@ -254,23 +254,31 @@ void Exibir_String(const char *string){
  *	uint16_t end_number - valor de 0 a 9998 que deseja que se encerre a  		*
  * 					 	  regressiva.											*
  *																				*
- *	@return: (bool)																*
- *	true - se a contagem ocorreu como planejado e chegou ao final.				*
- *	false - valores inválidos recebidos como parâmetro.							*
+ *	@return: (COUNT_ERROR)														*
+ *  Retorna-se uma das opções do enum COUNT_ERROR:								*
+ *	COUNT_OK (0), caso a contagem termine como esperado.						*
+ *	COUNT_NOT_OK (1), caso a contagem não tenha terminado no valor especificado.*
+ *	PARAMS_NOT_VALID (2), a função recebeu algum parâmetro inválido.			*
  ********************************************************************************/
-bool Contagem_Regressiva(uint16_t start_number, uint16_t end_number){
+COUNT_ERROR Contagem_Regressiva(uint16_t start_number, uint16_t end_number){
 	if(start_number > 9999 || start_number < 1 || end_number > 9998 ||
 			end_number < 0 || start_number < end_number){
-		return false;
+		return PARAMS_NOT_VALID;
 	}
 	int millis;
-	for(uint16_t value = start_number; value >= end_number; value--){
+	uint16_t value;
+	for(value = start_number; value >= end_number; value--){
 		millis = HAL_GetTick();
 		while(HAL_GetTick() - millis < 1000){
 			Exibir_Unsigned_Int(value);
 		}
 	}
-	return true;
+	if(value + 1 == end_number){
+		return COUNT_OK;
+	}
+	else {
+		return COUNT_NOT_OK;
+	}
 }
 
 
@@ -287,23 +295,31 @@ bool Contagem_Regressiva(uint16_t start_number, uint16_t end_number){
  *	uint16_t end_number - valor de 1 a 9999 que deseja que se encerre a  		*
  * 					 	  progressiva.											*
  * 					 	  														*
- *  @return: (bool)																*
- *	true - se a contagem ocorreu como planejado e chegou ao final.				*
- *	false - valores inválidos recebidos como parâmetro.							*										*
+ *  @return: (COUNT_ERROR)														*
+ *  Retorna-se uma das opções do enum COUNT_ERROR:								*
+ *	COUNT_OK (0), caso a contagem termine como esperado.						*
+ *	COUNT_NOT_OK (1), caso a contagem não tenha terminado no valor especificado.*
+ *	PARAMS_NOT_VALID (2), a função recebeu algum parâmetro inválido.			*
  ********************************************************************************/
-bool Contagem_Progressiva(uint16_t start_number, uint16_t end_number){
+COUNT_ERROR Contagem_Progressiva(uint16_t start_number, uint16_t end_number){
 	if(start_number > 9998 || start_number < 0 || end_number > 9999 ||
 			end_number < 1 || start_number > end_number){
-		return false;
+		return PARAMS_NOT_VALID;
 	}
 	int millis;
-	for(uint16_t value = start_number; value <= end_number; value++){
+	uint16_t value;
+	for(value = start_number; value <= end_number; value++){
 		millis = HAL_GetTick();
 		while(HAL_GetTick() - millis < 1000){
 			Exibir_Unsigned_Int(value);
 		}
 	}
-	return true;
+	if(value - 1 == end_number){
+		return COUNT_OK;
+	}
+	else {
+		return COUNT_NOT_OK;
+	}
 }
 
 /********************************************************************************
